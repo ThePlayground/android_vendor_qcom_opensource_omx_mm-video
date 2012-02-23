@@ -1,6 +1,8 @@
 OMX_VIDEO_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
+ifeq ($(BUILD_QCOM_VENDOR),true)
+
 ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
 
 ifeq ($(TARGET_BOARD_PLATFORM),qsd8k)
@@ -27,3 +29,5 @@ ifeq ($(TARGET_BOARD_PLATFORM),msm8960)
 endif
 
 endif #BOARD_USES_QCOM_HARDWARE
+
+endif
