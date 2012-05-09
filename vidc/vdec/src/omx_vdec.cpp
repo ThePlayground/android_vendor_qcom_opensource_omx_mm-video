@@ -4371,9 +4371,6 @@ OMX_ERRORTYPE omx_vdec::free_output_buffer(OMX_BUFFERHEADERTYPE *bufferHdr)
 #endif // _ANDROID_
                 close (drv_ctx.ptr_outputbuffer[index].pmem_fd);
                 drv_ctx.ptr_outputbuffer[index].pmem_fd = -1;
-#ifdef USE_ION
-                free_ion_memory(&drv_ctx.op_buf_ion_info[index]);
-#endif
           }
 #ifdef _ANDROID_
        }
@@ -4946,7 +4943,7 @@ OMX_ERRORTYPE  omx_vdec::allocate_output_buffer(
 
 #ifdef _ANDROID_
 #ifdef USE_ION
-    m_heap_ptr[i].video_heap_ptr = new VideoHeap (pmem_fd,
+    m_heap_ptr[i].video_heap_ptr = new VideoHeap (drv_ctx.op_buf_ion_info[i].ion_device_fd,
                                drv_ctx.op_buf.buffer_size,
                                pmem_baseaddress,
                                drv_ctx.op_buf_ion_info[i].ion_alloc_data.handle,
