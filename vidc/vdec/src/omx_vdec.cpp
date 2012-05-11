@@ -4691,6 +4691,11 @@ OMX_ERRORTYPE  omx_vdec::allocate_output_buffer(
   unsigned                         i= 0; // Temporary counter
   struct vdec_ioctl_msg ioctl_msg = {NULL,NULL};
   struct vdec_setbuffer_cmd setbuffers;
+#ifdef USE_ION
+  int ion_device_fd =-1;
+  struct ion_allocation_data ion_alloc_data;
+  struct ion_fd_data fd_ion_data;
+#endif
 
   int nBufHdrSize        = 0;
   int nPlatformEntrySize = 0;
