@@ -48,10 +48,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifdef _ANDROID_
 #ifdef USE_ION
 #include <linux/ion.h>
-#include <binder/MemoryHeapIon.h>
-#else
-#include <binder/MemoryHeapBase.h>
 #endif
+#include <binder/MemoryHeapBase.h>
 #include <ui/android_native_buffer.h>
 extern "C"{
 #include<utils/Log.h>
@@ -116,11 +114,14 @@ extern "C" {
 #ifdef _ANDROID_
     using namespace android;
 #ifdef USE_ION
-    class VideoHeap : public MemoryHeapIon
+    class VideoHeap : public MemoryHeapBase
     {
     public:
         VideoHeap(int devicefd, size_t size, void* base,struct ion_handle *handle,int mapfd);
         virtual ~VideoHeap() {}
+    private:
+       int m_ion_device_fd;
+       struct ion_handle *m_ion_handle;
     };
 #else
     // local pmem heap object
